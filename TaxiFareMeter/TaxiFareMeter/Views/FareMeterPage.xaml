@@ -27,24 +27,28 @@
             </Grid.RowDefinitions>
 
             <Button Text="Start"
-                Command="{Binding StartCommand}"
-                Grid.Column="0"
-                Grid.Row="0"/>
+                    Command="{Binding StartCommand}"
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    FontAttributes="Bold"/>
 
             <Button Text="Stop"
                     Command="{Binding StopCommand}"
                     Grid.Column="1"
-                    Grid.Row="0"/>
+                    Grid.Row="0"
+                    FontAttributes="Bold"/>
 
             <Button Text="Compute"
                     Command="{Binding CalculateCommand}"
                     Grid.Column="3"
-                    Grid.Row="0"/>
+                    Grid.Row="0"
+                    FontAttributes="Bold"/>
 
             <Button Text="Reset"
                     Command="{Binding ResetCommand}"
                     Grid.Column="2"
-                    Grid.Row="0"/>
+                    Grid.Row="0"
+                    FontAttributes="Bold"/>
 
             <Label Text="Time Display" 
                    Grid.Column="1"

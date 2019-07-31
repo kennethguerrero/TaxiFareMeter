@@ -49,7 +49,6 @@ namespace TaxiFareMeter.ViewModels
         {
             stopWatch = new Stopwatch();
         }
-        
 
         public void Timer()
         {
