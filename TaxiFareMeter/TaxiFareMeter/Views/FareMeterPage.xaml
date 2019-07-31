@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="TaxiFareMeter.Views.FareMeterPage">
+
+    <StackLayout HorizontalOptions="CenterAndExpand" 
+                 VerticalOptions="CenterAndExpand"
+                 Padding="10">
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Button Text="Start"
+                Command="{Binding StartCommand}"
+                Grid.Column="0"
+                Grid.Row="0"/>
+
+            <Button Text="Stop"
+                    Command="{Binding StopCommand}"
+                    Grid.Column="1"
+                    Grid.Row="0"/>
+
+            <Button Text="Compute"
+                    Command="{Binding CalculateCommand}"
+                    Grid.Column="3"
+                    Grid.Row="0"/>
+
+            <Button Text="Reset"
+                    Command="{Binding ResetCommand}"
+                    Grid.Column="2"
+                    Grid.Row="0"/>
+
+            <Label Text="Time Display" 
+                   Grid.Column="1"
+                   Grid.Row="2"
+                   VerticalTextAlignment="Center"/>
+
+            <Entry Text="{Binding TimeDisplay}"
+                   Keyboard="Numeric"
+                   WidthRequest="200"
+                   Grid.Column="2"
+                   Grid.Row="2"
+                   Placeholder="hh:mm:ss"/>
+
+            <Label Text="Duration Rate" 
+                   Grid.Column="1"
+                   Grid.Row="3"
+                   VerticalTextAlignment="Center"/>
+
+            <Entry Text="{Binding DurationRate}"
+                   Keyboard="Numeric"
+                   Grid.Column="2"
+                   Grid.Row="3"
+                   Placeholder="mm"/>
+
+            <Label Text="Distance Rate" 
+                   Grid.Column="1"
+                   Grid.Row="4"
+                   VerticalTextAlignment="Center"/>
+
+            <Entry Text="{Binding DistanceRate}"
+                   Keyboard="Numeric"
+                   Grid.Column="2"
+                   Grid.Row="4"
+                   Placeholder="km"/>
+
+            <Label Text="Total Fare" 
+                   Grid.Column="1"
+                   Grid.Row="5"
+                   VerticalTextAlignment="Center"/>
+
+            <Entry Text="{Binding TotalFare}"
+                   Grid.Column="2"
+                   Grid.Row="5"/>
+
+        </Grid>
+
+    </StackLayout>
+
+</ContentPage>
