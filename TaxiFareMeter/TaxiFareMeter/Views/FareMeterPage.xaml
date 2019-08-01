@@ -30,68 +30,80 @@
                     Command="{Binding StartCommand}"
                     Grid.Column="0"
                     Grid.Row="0"
-                    FontAttributes="Bold"/>
+                    FontAttributes="Bold"
+                    FontSize="11"/>
 
             <Button Text="Stop"
                     Command="{Binding StopCommand}"
                     Grid.Column="1"
                     Grid.Row="0"
-                    FontAttributes="Bold"/>
+                    FontAttributes="Bold"
+                    FontSize="11"/>
 
             <Button Text="Compute"
                     Command="{Binding CalculateCommand}"
-                    Grid.Column="3"
+                    Grid.Column="2"
                     Grid.Row="0"
-                    FontAttributes="Bold"/>
+                    FontAttributes="Bold"
+                    FontSize="11"/>
 
             <Button Text="Reset"
                     Command="{Binding ResetCommand}"
-                    Grid.Column="2"
+                    Grid.Column="3"
                     Grid.Row="0"
-                    FontAttributes="Bold"/>
+                    FontAttributes="Bold"
+                    FontSize="11"/>
 
             <Label Text="Time Display" 
                    Grid.Column="1"
                    Grid.Row="2"
-                   VerticalTextAlignment="Center"/>
+                   VerticalTextAlignment="Center"
+                   FontSize="13"/>
 
             <Entry Text="{Binding TimeDisplay}"
                    Keyboard="Numeric"
                    WidthRequest="200"
                    Grid.Column="2"
                    Grid.Row="2"
-                   Placeholder="hh:mm:ss"/>
+                   Placeholder="hh:mm:ss"
+                   FontSize="15"/>
 
             <Label Text="Duration Rate" 
                    Grid.Column="1"
                    Grid.Row="3"
-                   VerticalTextAlignment="Center"/>
+                   VerticalTextAlignment="Center"
+                   FontSize="13"/>
 
             <Entry Text="{Binding DurationRate}"
                    Keyboard="Numeric"
                    Grid.Column="2"
                    Grid.Row="3"
-                   Placeholder="mm"/>
+                   Placeholder="mm"
+                   FontSize="15"/>
 
             <Label Text="Distance Rate" 
                    Grid.Column="1"
                    Grid.Row="4"
-                   VerticalTextAlignment="Center"/>
+                   VerticalTextAlignment="Center"
+                   FontSize="13"/>
 
             <Entry Text="{Binding DistanceRate}"
                    Keyboard="Numeric"
                    Grid.Column="2"
                    Grid.Row="4"
-                   Placeholder="km"/>
+                   Placeholder="km"
+                   FontSize="15"/>
 
             <Label Text="Total Fare" 
                    Grid.Column="1"
                    Grid.Row="5"
-                   VerticalTextAlignment="Center"/>
+                   VerticalTextAlignment="Center"
+                   FontSize="13"/>
 
             <Entry Text="{Binding TotalFare}"
                    Grid.Column="2"
-                   Grid.Row="5"/>
+                   Grid.Row="5"
+                   FontSize="15"/>
 
         </Grid>
 
