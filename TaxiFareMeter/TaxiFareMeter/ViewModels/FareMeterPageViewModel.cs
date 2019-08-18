@@ -106,40 +106,38 @@ namespace TaxiFareMeter.ViewModels
             });
         }
 
-        public void GetSourceLocation()
+        public async void GetSourceLocation()
         {
-            //var loc1 = await Geolocation.GetLastKnownLocationAsync();
+            var loc1 = await Geolocation.GetLastKnownLocationAsync();
 
-            //if (loc1 != null)
-            //{
-            //    Console.WriteLine($"Source Latitude: {loc1.Latitude}, Source Longitude: {loc1.Longitude}");
+            if (loc1 != null)
+            {
+                Console.WriteLine($"Source Latitude: {loc1.Latitude}, Source Longitude: {loc1.Longitude}");
 
-            //    SourceLongitude = loc1.Longitude;
-            //    SourceLatitude = loc1.Latitude;
-            //}
+                SourceLongitude = loc1.Longitude;
+                SourceLatitude = loc1.Latitude;
+            }
 
-            SourceLatitude = 14.578706;
-            SourceLongitude = 121.050499;
-
-            Console.WriteLine($"Source Latitude: {SourceLatitude}, Source Longitude: {SourceLongitude}");
+            //SourceLatitude = 14.578706;
+            //SourceLongitude = 121.050499;
+            //Console.WriteLine($"Source Latitude: {SourceLatitude}, Source Longitude: {SourceLongitude}");
         }
 
-        public void GetDestinationLocation()
+        public async void GetDestinationLocation()
         {
-            //var loc2 = await Geolocation.GetLastKnownLocationAsync();
+            var loc2 = await Geolocation.GetLastKnownLocationAsync();
 
-            //if (loc2 != null)
-            //{
-            //    Console.WriteLine($"Destination Latitude: {loc2.Latitude}, Destination Longitude: {loc2.Longitude}");
+            if (loc2 != null)
+            {
+                Console.WriteLine($"Destination Latitude: {loc2.Latitude}, Destination Longitude: {loc2.Longitude}");
 
-            //    DestinationLongitude = loc2.Longitude;
-            //    DestinationLatitude = loc2.Latitude;
-            //}
+                DestinationLongitude = loc2.Longitude;
+                DestinationLatitude = loc2.Latitude;
+            }
 
-            DestinationLatitude = 14.553035;
-            DestinationLongitude = 121.053415;
-
-            Console.WriteLine($"Destination Latitude: {DestinationLatitude}, Destination Longitude: {DestinationLongitude}");
+            //DestinationLatitude = 14.553035;
+            //DestinationLongitude = 121.053415;
+            //Console.WriteLine($"Destination Latitude: {DestinationLatitude}, Destination Longitude: {DestinationLongitude}");
         }
 
         private void ElapsedTime()
