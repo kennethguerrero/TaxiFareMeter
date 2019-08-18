@@ -44,6 +44,34 @@ namespace TaxiFareMeter.ViewModels
             set => SetProperty(ref timeDisplay, value);
         }
 
+        private double sourceLongitude;
+        public double SourceLongitude
+        {
+            get => sourceLongitude;
+            set => SetProperty(ref sourceLongitude, value);
+        }
+
+        private double sourceLatitude;
+        public double SourceLatitude
+        {
+            get => sourceLatitude;
+            set => SetProperty(ref sourceLatitude, value);
+        }
+
+        private double destinationLongitude;
+        public double DestinationLongitude
+        {
+            get => destinationLongitude;
+            set => SetProperty(ref destinationLongitude, value);
+        }
+
+        private double destinationLatitude;
+        public double DestinationLatitude
+        {
+            get => destinationLatitude;
+            set => SetProperty(ref destinationLatitude, value);
+        }
+
         Stopwatch stopWatch;
 
         private int tickControl = 0;
@@ -64,25 +92,54 @@ namespace TaxiFareMeter.ViewModels
 
                 tickControl++;
 
-                //mod divisble by 10
-                if(tickControl % 10 == 0)
+                if(tickControl <= 1)
                 {
-                    GetLocation();
+                    GetSourceLocation();
+                }
+                //mod divisble by 10
+                else if(tickControl % 10 == 0)
+                {
+                    GetDestinationLocation();
                 }
 
                 return true;
             });
         }
 
-        private static async void GetLocation()
+        public void GetSourceLocation()
         {
-            var loc1 = await Geolocation.GetLastKnownLocationAsync();
+            //var loc1 = await Geolocation.GetLastKnownLocationAsync();
 
-            if (loc1 != null)
-            {
-                //Console.WriteLine($"Latitude: {loc1.Latitude}, Longitude: {loc1.Longitude}");
-                await Application.Current.MainPage.DisplayAlert("Test", loc1.Latitude.ToString() + "\n" + loc1.Longitude.ToString(), "OK");
-            }
+            //if (loc1 != null)
+            //{
+            //    Console.WriteLine($"Source Latitude: {loc1.Latitude}, Source Longitude: {loc1.Longitude}");
+
+            //    SourceLongitude = loc1.Longitude;
+            //    SourceLatitude = loc1.Latitude;
+            //}
+
+            SourceLatitude = 14.578706;
+            SourceLongitude = 121.050499;
+
+            Console.WriteLine($"Source Latitude: {SourceLatitude}, Source Longitude: {SourceLongitude}");
+        }
+
+        public void GetDestinationLocation()
+        {
+            //var loc2 = await Geolocation.GetLastKnownLocationAsync();
+
+            //if (loc2 != null)
+            //{
+            //    Console.WriteLine($"Destination Latitude: {loc2.Latitude}, Destination Longitude: {loc2.Longitude}");
+
+            //    DestinationLongitude = loc2.Longitude;
+            //    DestinationLatitude = loc2.Latitude;
+            //}
+
+            DestinationLatitude = 14.553035;
+            DestinationLongitude = 121.053415;
+
+            Console.WriteLine($"Destination Latitude: {DestinationLatitude}, Destination Longitude: {DestinationLongitude}");
         }
 
         private void ElapsedTime()
@@ -115,9 +172,49 @@ namespace TaxiFareMeter.ViewModels
 
         public ICommand CalculateCommand => new Command(() =>
         {
-            distanceRate = Math.Round(distanceRate * 13.50);
+            GetDistance();
+
+            DistanceRate = Math.Round(DistanceRate * 13.50);
             
             TotalFare = DistanceRate + DurationRate + 40;
         });
-	}
+
+        //Function that gets the distance using longitude and latitude
+        private double GetDistance()
+        {
+            if ((SourceLongitude == DestinationLongitude) && (SourceLatitude == DestinationLatitude))
+            {
+                return 0;
+            }
+            else
+            {
+                double theta = SourceLongitude - DestinationLongitude;
+                double dist = Math.Sin(DegreesToRadians(SourceLatitude)) * Math.Sin(DegreesToRadians(DestinationLatitude)) + Math.Cos(DegreesToRadians(SourceLatitude))
+                    * Math.Cos(DegreesToRadians(DestinationLatitude)) * Math.Cos(DegreesToRadians(theta));
+                dist = Math.Acos(dist);
+                dist = RadiansToDegrees(dist);
+                dist = dist * 60 * 1.1515;
+
+                //Conversion of distance to KM (defualt Miles)
+                dist = dist * 1.609344;
+
+                //Added static 3KM
+                DistanceRate = dist + 3;
+
+                return dist;
+            }
+        }
+
+        //Function that converts decimal degrees to radians
+        private double DegreesToRadians(double deg)
+        {
+            return (deg * Math.PI / 180.0);
+        }
+
+        //Function that converts radians to decimal degrees
+        private double RadiansToDegrees(double rad)
+        {
+            return (rad / Math.PI * 180.0);
+        }
+    }
 }
