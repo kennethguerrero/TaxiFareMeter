@@ -135,8 +135,8 @@ namespace TaxiFareMeter.ViewModels
                 DestinationLatitude = loc2.Latitude;
             }
 
-            //DestinationLatitude = 14.553035;
-            //DestinationLongitude = 121.053415;
+            //DestinationLatitude = 14.603078;
+            //DestinationLongitude = 121.119543;
             //Console.WriteLine($"Destination Latitude: {DestinationLatitude}, Destination Longitude: {DestinationLongitude}");
         }
 
@@ -197,7 +197,7 @@ namespace TaxiFareMeter.ViewModels
                 dist = dist * 1.609344;
 
                 //Added static 3KM
-                DistanceRate = dist + 3;
+                DistanceRate = dist;
 
                 return dist;
             }
