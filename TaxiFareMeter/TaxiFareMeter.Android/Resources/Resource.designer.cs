@@ -4392,8 +4392,17 @@ namespace TaxiFareMeter.Droid
 			// aapt resource value: 0x7f0f0002
 			public const int abc_config_actionMenuItemAllCaps = 2131689474;
 			
+			// aapt resource value: 0x7f0f0004
+			public const int enable_system_alarm_service_default = 2131689476;
+			
+			// aapt resource value: 0x7f0f0005
+			public const int enable_system_job_service_default = 2131689477;
+			
 			// aapt resource value: 0x7f0f0003
 			public const int mtrl_btn_textappearance_all_caps = 2131689475;
+			
+			// aapt resource value: 0x7f0f0006
+			public const int workmanager_test_configuration = 2131689478;
 			
 			static Boolean()
 			{

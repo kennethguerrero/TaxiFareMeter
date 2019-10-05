@@ -37,11 +37,11 @@ namespace TaxiFareMeter.ViewModels
             set => SetProperty(ref totalFare, value);
         }
 
-        private string timeDisplay;
-        public string TimeDisplay
+        private string statusDisplay;
+        public string StatusDisplay
         {
-            get => timeDisplay;
-            set => SetProperty(ref timeDisplay, value);
+            get => statusDisplay;
+            set => SetProperty(ref statusDisplay, value);
         }
 
         private double sourceLongitude;
@@ -80,15 +80,56 @@ namespace TaxiFareMeter.ViewModels
         {
             stopWatch = new Stopwatch();
         }
-        
+
+        public ICommand StartCommand => new Command(() =>
+        {
+            Timer();
+        });
+
+        public ICommand StopCommand => new Command(() =>
+        {
+            stopWatch.Stop();
+            ElapsedTime();
+        });
+
+        public ICommand CalculateCommand => new Command(() =>
+        {
+            GetDistance();
+
+            DistanceRate = Math.Round(DistanceRate * 13.50);
+
+            TotalFare = DistanceRate + DurationRate + 40;
+        });
+
+        public ICommand ResetCommand => new Command(() =>
+        {
+            stopWatch.Reset();
+
+            DurationRate = 0;
+            DistanceRate = 0;
+            TotalFare = 0;
+
+            StatusDisplay = "Travel Pending";
+
+        });
+
         public void Timer()
         {
+            Application.Current.Properties["TimeStarted"] = DateTime.Now;
+
             stopWatch.Start();
+
+            StatusDisplay = "Travel Started";
 
             Device.StartTimer(TimeSpan.FromMilliseconds(1000), () =>
             {
-                TimeSpan ts = stopWatch.Elapsed;
-                TimeDisplay = string.Format("{0:00}:{1:00}:{2:00}", ts.Hours, ts.Minutes, ts.Seconds);
+                var startTime = (DateTime)Application.Current.Properties["TimeStarted"];
+                var endTime = DateTime.Now.Subtract(startTime);
+
+                //TimeSpan ts = stopWatch.Elapsed;
+                //TimeDisplay = string.Format("{0:00}:{1:00}:{2:00}", endTime.Hours, endTime.Minutes, endTime.Seconds);
+
+                Console.WriteLine($"Start Time: {startTime}, End Time {endTime}");
 
                 tickControl++;
 
@@ -106,18 +147,26 @@ namespace TaxiFareMeter.ViewModels
             });
         }
 
+        private void ElapsedTime()
+        {
+            TimeSpan endTime = stopWatch.Elapsed;
+
+            DurationRate = Convert.ToInt32(endTime.TotalMinutes);
+
+            StatusDisplay = "Travel Ended";
+        }
+
         public async void GetSourceLocation()
         {
             var loc1 = await Geolocation.GetLastKnownLocationAsync();
 
             if (loc1 != null)
             {
-                Console.WriteLine($"Source Latitude: {loc1.Latitude}, Source Longitude: {loc1.Longitude}");
-
                 SourceLongitude = loc1.Longitude;
                 SourceLatitude = loc1.Latitude;
             }
 
+            //For testing purposes
             //SourceLatitude = 14.578706;
             //SourceLongitude = 121.050499;
             //Console.WriteLine($"Source Latitude: {SourceLatitude}, Source Longitude: {SourceLongitude}");
@@ -129,55 +178,17 @@ namespace TaxiFareMeter.ViewModels
 
             if (loc2 != null)
             {
-                Console.WriteLine($"Destination Latitude: {loc2.Latitude}, Destination Longitude: {loc2.Longitude}");
-
                 DestinationLongitude = loc2.Longitude;
                 DestinationLatitude = loc2.Latitude;
             }
 
+            //For testing purposes
             //DestinationLatitude = 14.603078;
             //DestinationLongitude = 121.119543;
             //Console.WriteLine($"Destination Latitude: {DestinationLatitude}, Destination Longitude: {DestinationLongitude}");
         }
 
-        private void ElapsedTime()
-        {
-            TimeSpan ts = stopWatch.Elapsed;
-
-            DurationRate = Convert.ToInt32(ts.TotalMinutes);
-        }
-
-        public ICommand StartCommand => new Command(() =>
-        {
-            Timer();
-        });
-
-        public ICommand StopCommand => new Command(() =>
-        {
-            stopWatch.Stop();
-            ElapsedTime();
-        });
-
-        public ICommand ResetCommand => new Command(() =>
-        {
-            stopWatch.Reset();
-
-            DurationRate = 0;
-            DistanceRate = 0;
-            TotalFare = 0;
-
-        });
-
-        public ICommand CalculateCommand => new Command(() =>
-        {
-            GetDistance();
-
-            DistanceRate = Math.Round(DistanceRate * 13.50);
-            
-            TotalFare = DistanceRate + DurationRate + 40;
-        });
-
-        //Function that gets the distance using longitude and latitude
+        //Gets the distance using longitude and latitude
         private double GetDistance()
         {
             if ((SourceLongitude == DestinationLongitude) && (SourceLatitude == DestinationLatitude))
@@ -196,23 +207,29 @@ namespace TaxiFareMeter.ViewModels
                 //Conversion of distance to KM (defualt Miles)
                 dist = dist * 1.609344;
 
-                //Added static 3KM
                 DistanceRate = dist;
 
                 return dist;
             }
         }
 
-        //Function that converts decimal degrees to radians
+        //Converts decimal degrees to radians
         private double DegreesToRadians(double deg)
         {
             return (deg * Math.PI / 180.0);
         }
 
-        //Function that converts radians to decimal degrees
+        //Converts radians to decimal degrees
         private double RadiansToDegrees(double rad)
         {
             return (rad / Math.PI * 180.0);
         }
+
+        public ICommand AlertCommand => new Command(() =>
+        {
+            IBackgroundService service = DependencyService.Get<IBackgroundService>();
+
+            Application.Current.MainPage.DisplayAlert("TEST", service.HelloWorld(), "OK");
+        });
     }
 }
